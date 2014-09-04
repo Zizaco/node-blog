@@ -1,0 +1,29 @@
+{
+  "name": "blog-express",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js",
+    "test": "mocha test -R spec"
+  },
+  "author": "Zizaco <zizaco@gmail.com>",
+  "dependencies": {
+    "body-parser": "1.0.2",
+    "cookie-parser": "1.0.1",
+    "errorhandler": "1.0.1",
+    "everyauth": "0.4.6",
+    "express": "4.1.2",
+    "express-session": "1.0.4",
+    "jade": "1.3.1",
+    "method-override": "1.0.0",
+    "mongoskin": "1.4.1",
+    "morgan": "1.0.1",
+    "serve-favicon": "2.0.0",
+    "stylus": "0.44.0"
+  },
+  "devDependencies": {
+    "mocha": "1.16.2",
+    "superagent": "0.15.7",
+    "expect.js": "0.2.0"
+  }
+}

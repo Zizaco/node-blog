@@ -1,0 +1,16 @@
+[{
+    "title": "Node is a movement",
+    "slug": "node-movement",
+    "published": true,
+    "text": "In one tandom deployment, it is often assumed that the number of scattered sensors are mothan that required by a critical sensor density."
+}, {
+    "title": "Express.js Experience",
+    "slug": "express-experience",
+    "published": false,
+    "text": "Work in progress."
+}, {
+    "title": "Node.js Fundamentals: A concise overview of the main concepts",
+    "slug": "node-fundamentals",
+    "published": true,
+    "text": "Lorem ipsum dolor"
+}]
