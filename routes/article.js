@@ -6,7 +6,7 @@ exports.show = function(req, res, next) {
     return next(new Error('No article slug.'));
   }
 
-  req.collections.articles.findOne({slug: req.params.slug}, function(error, article) {
+  req.models.Article.findOne({slug: req.params.slug}, function(error, article) {
     if (error) {
       return next(error);
     }
@@ -23,7 +23,7 @@ exports.show = function(req, res, next) {
  * GET article API
  */
 exports.list = function(req, res, next) {
-  req.collections.articles.find({}).toArray(function(error, articles) {
+  req.models.Article.list(function(error, articles) {
     if (error) {
       return next(error);
     }
@@ -42,7 +42,7 @@ exports.add = function(req, res, next) {
 
   var article = req.body.article;
   article.published = false;
-  req.collections.articles.insert(article, function(error, articleResponse) {
+  req.models.Article.create(article, function(error, articleResponse) {
     if (error) {
       return next(error);
     }
@@ -59,13 +59,23 @@ exports.edit = function(req, res, next) {
     return next(new Error('No article ID.'));
   }
 
-  req.collections.articles.updateById(req.params.id, {$set: req.body.article}, function(error, count) {
-    if (error) {
-      return next(error);
-    }
+  req.models.Article.findById(
+    req.params.id, function(error, article) {
+      if (error) {
+        return next(error);
+      }
 
-    res.send({affectedCount: count});
-  })
+      article.update(
+        {$set: req.body.article}, function(error, count, raw) {
+          if (error) {
+            return next(error);
+          }
+
+          res.send({affectedCount: count});
+        }
+      );
+    }
+  );
 };
 
 /**
@@ -76,12 +86,22 @@ exports.del = function(req, res, next) {
     return next(new Error('No article ID.'));
   }
 
-  req.collections.articles.removeById(req.params.id, function(error, count) {
+  req.Article.findById(req.params.id, function(error, article) {
     if (error) {
       return next(error);
     }
 
-    res.send({affectedCount: count});
+    if (!article) {
+      return next(new Error('article not found'));
+    }
+
+    article.remove(function(error, doc) {
+      if (error) {
+        return next(error);
+      }
+
+      res.send(doc);
+    });
   });
 };
 
@@ -109,7 +129,7 @@ exports.postArticle = function(req, res, next) {
     published: false
   };
 
-  req.collections.articles.insert(article, function(error, articleResponse) {
+  req.models.Article.create(article, function(error, articleResponse) {
     if (error) {
       return next(error);
     }
@@ -122,7 +142,7 @@ exports.postArticle = function(req, res, next) {
  * GET admin page
  */
 exports.admin = function(req, res, next) {
-  req.collections.articles.find({}, {sort:{_id:-1}}).toArray(function(error, articles) {
+  req.models.Article.list(function(error, articles) {
     if (error) {
       return next(error);
     }
