@@ -1,15 +1,12 @@
-var express   = require('express'),
+var express = require('express'),
   routes    = require('./routes'),
   http      = require('http'),
   path      = require('path'),
-  mongoskin = require('mongoskin');
+  mongoose  = require('mongoose'),
+  models    = require('./models');
 
 var dbUrl = process.env.MONGOHQ_URL || 'mongodb://127.0.0.1:27017/blog';
-var db = mongoskin.db(dbUrl, {safe: true});
-var collections = {
-  articles: db.collection('articles'),
-  users: db.collection('users')
-};
+var db = mongoose.connect(dbUrl, {safe: true});
 
 var session      = require('express-session'),
   logger         = require('morgan'),
@@ -24,10 +21,10 @@ app.locals.appTitle = 'blog-express';
 
 // Expose collections to request handlers
 app.use(function(req, res, next) {
-  if (!collections.articles || !collections.users) {
-    return next(new Error('No collections.'))
+  if (!models.Article || !models.User) {
+    return next(new Error('No models.'))
   }
-  req.collections = collections;
+  req.models = models;
   return next();
 })
 
