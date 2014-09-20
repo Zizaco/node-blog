@@ -10,4 +10,4 @@ A basic blog application built for study purposes using:
 - Expect.js
 - Everyauth
 
-*PS: Everything was done from scratch (without "generators") while studying node.js. So don't expect beautiful code. ¯\_(ツ)_/¯*
+*PS: Everything was done from scratch (without "generators") while studying node.js. So don't expect beautiful code. ¯\\\_(ツ)\_/¯*
